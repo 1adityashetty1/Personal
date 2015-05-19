@@ -1,75 +1,101 @@
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 public class TestMoney {
     public static void main(String[] args) {
         Data mydata = tryLoadingMyData();
         if (mydata == null) {
             mydata = new Data();
         }
-        if(args.length < 1){
+        if (args.length < 1) {
             System.out.println("Please enter a valid command. Type 'help' for a list of valid commands");
             return;
         }
         switch (args[0]) {
+            case "add":
+                System.out.println("Please enter a payment in the following format: payee, item");
+                BufferedReader ar = new BufferedReader(new InputStreamReader(System.in));
+                try{
+                String entry = ar.readLine();
+                String[] pi = entry.split(",");
+                if (pi.length != 2) {
+                    System.out.println("Invalid Input");
+                    return;
+                }
+                System.out.println("Please enter payers and cost in the following format: total amount(as 0.00 format) , payer1, payer2, etc.");
+                String[] ap = ar.readLine().split(",");
+                if (ap.length < 2) {
+                    System.out.println("Invalid Input");
+                    return;
+                }
+                HashSet<String> payees = new HashSet();
+                for (int i = 1; i < ap.length;i++){
+                payees.add(ap[i]);
+                }
+                mydata.addEntry(pi[0], pi[1],payees , Double.parseDouble(ap[0]));
+                break;} catch (IOException e){
+                    System.out.println("IOExeption");
+                    break;
+                }
             case "check":
                 int k = 0;
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 HashSet<Entry> markedfordeath = new HashSet();
-                while (mydata.getBydate().size()>k){
-                mydata.getBydate().get(k).print();
-                System.out.println("Would you like to (c)ontinue, (d)elete,(e)xit, (o)r change this entry?");
-                try {
-                    String alpha = br.readLine();
-                    switch (alpha) {
-                        case "c":
-                            k += 1;
-                            break;
-                        case "d":
-                            markedfordeath.add(mydata.getBydate().get(k));
-                            k += 1;
-                            break;
-                        case "e":
-                            k = mydata.getBydate().size();
-                            break;
-                        case "o":
-                            boolean cont = false;
-                            while (!cont) {
-                                System.out.println("Please enter a payer");
-                                BufferedReader tr = new BufferedReader(new InputStreamReader(System.in));
-                                String beta = tr.readLine();
-                                System.out.println("Please enter an amount");
-                                Double gamma = Double.parseDouble(tr.readLine());
-                                mydata.reMap(mydata.getBydate().get(k), beta, gamma);
-                                System.out.println("Would you like to continue? [y] [n]");
-                                String delta = tr.readLine();
-                                switch (delta) {
-                                    case "y":
-                                        cont = true;
-                                        break;
-                                    case "n":
-                                        break;
-                                    default:
-                                        System.out.println("Enter y or n");
-                                        break;
+                while (mydata.getBydate().size() > k) {
+                    mydata.getBydate().get(k).print();
+                    System.out.println("Would you like to (c)ontinue, (d)elete,(e)xit, (o)r change this entry?");
+                    try {
+                        String alpha = br.readLine();
+                        switch (alpha) {
+                            case "c":
+                                k += 1;
+                                break;
+                            case "d":
+                                markedfordeath.add(mydata.getBydate().get(k));
+                                k += 1;
+                                break;
+                            case "e":
+                                k = mydata.getBydate().size();
+                                break;
+                            case "o":
+                                boolean cont = false;
+                                while (!cont) {
+                                    System.out.println("Please enter a payer");
+                                    BufferedReader tr = new BufferedReader(new InputStreamReader(System.in));
+                                    String beta = tr.readLine();
+                                    System.out.println("Please enter an amount");
+                                    Double gamma = Double.parseDouble(tr.readLine());
+                                    mydata.reMap(mydata.getBydate().get(k), beta, gamma);
+                                    System.out.println("Would you like to continue? [y] [n]");
+                                    String delta = tr.readLine();
+                                    switch (delta) {
+                                        case "y":
+                                            cont = true;
+                                            break;
+                                        case "n":
+                                            break;
+                                        default:
+                                            System.out.println("Enter y or n");
+                                            break;
+                                    }
                                 }
-                            }
-                            k += 1;
-                            break;
-                        default:
-                            System.out.println("Enter c,o,d,e");
-                            break;
+                                k += 1;
+                                break;
+                            default:
+                                System.out.println("Enter c,o,d,e");
+                                break;
+                        }
+                    } catch (IOException e) {
+                        System.out.println("Exception");
                     }
-                } catch (IOException e){
-                    System.out.println("Exception");
-                }
 
-            }
-             System.out.println("There are no more entries");
-            for (Entry e : markedfordeath) {
-                mydata.getByamount().remove(e);
-            }
-            mydata.update();
+                }
+                System.out.println("There are no more entries");
+                for (Entry e : markedfordeath) {
+                    mydata.getByamount().remove(e);
+                }
+                mydata.update();
                 break;
             case "greatest":
                 mydata.getByamount().first().print();
@@ -111,7 +137,6 @@ public class TestMoney {
     }
 
 
-
     private static Data tryLoadingMyData() {
         Data last = null;
         File lastFile = new File("data.ser");
@@ -146,8 +171,6 @@ public class TestMoney {
         }
     }
 }
-
-
 
 
 class Data implements Serializable {
