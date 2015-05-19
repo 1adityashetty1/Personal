@@ -16,25 +16,26 @@ public class TestMoney {
             case "add":
                 System.out.println("Please enter a payment in the following format: payee, item");
                 BufferedReader ar = new BufferedReader(new InputStreamReader(System.in));
-                try{
-                String entry = ar.readLine();
-                String[] pi = entry.split(",");
-                if (pi.length != 2) {
-                    System.out.println("Invalid Input");
-                    return;
-                }
-                System.out.println("Please enter payers and cost in the following format: total amount(as 0.00 format) , payer1, payer2, etc.");
-                String[] ap = ar.readLine().split(",");
-                if (ap.length < 2) {
-                    System.out.println("Invalid Input");
-                    return;
-                }
-                HashSet<String> payees = new HashSet();
-                for (int i = 1; i < ap.length;i++){
-                payees.add(ap[i]);
-                }
-                mydata.addEntry(pi[0], pi[1],payees , Double.parseDouble(ap[0]));
-                break;} catch (IOException e){
+                try {
+                    String entry = ar.readLine();
+                    String[] pi = entry.split(",");
+                    if (pi.length != 2) {
+                        System.out.println("Invalid Input");
+                        return;
+                    }
+                    System.out.println("Please enter amount and payers in the following format: 0.00,payer1,payer2,etc.");
+                    String[] ap = ar.readLine().split(",");
+                    if (ap.length < 2) {
+                        System.out.println("Invalid Input");
+                        return;
+                    }
+                    HashSet<String> payees = new HashSet();
+                    for (int i = 1; i < ap.length; i++) {
+                        payees.add(ap[i]);
+                    }
+                    mydata.addEntry(pi[0], pi[1], payees, Double.parseDouble(ap[0]));
+                    break;
+                } catch (IOException e) {
                     System.out.println("IOExeption");
                     break;
                 }
@@ -98,16 +99,32 @@ public class TestMoney {
                 mydata.update();
                 break;
             case "greatest":
+                if (mydata.getByamount().size() < 1) {
+                    System.out.println("There are no entries");
+                    return;
+                }
                 mydata.getByamount().first().print();
                 break;
             case "oldest":
+                if (mydata.getBydate().size() < 1) {
+                    System.out.println("There are no entries");
+                    return;
+                }
                 mydata.getBydate().peek().print();
                 break;
             case "greatest-d":
+                if (mydata.getByamount().size() < 1) {
+                    System.out.println("There are no entries");
+                    return;
+                }
                 mydata.removeGreatest();
                 mydata.update();
                 break;
             case "oldest-d":
+                if (mydata.getBydate().size() < 1) {
+                    System.out.println("There are no entries");
+                    return;
+                }
                 mydata.removeOldest();
                 mydata.update();
                 break;
@@ -259,6 +276,9 @@ class Entry implements Serializable, Comparable {
 
     public void reMap(String payer, Double cost) {
         Double orig = payers.get(payer);
+        if(orig == null){
+            orig = 0.00;
+        }
         if (cost <= 0.0) {
             payers.remove(payer);
         } else {
@@ -281,8 +301,9 @@ class Entry implements Serializable, Comparable {
         System.out.println(this.date);
         System.out.print("   " + this.payee);
         System.out.print("   " + this.amount);
-        System.out.print("  " + this.item);
+        System.out.print("  " + this.item + " ");
         System.out.println(this.payers);
+        System.out.println("====");
     }
 
     @Override
