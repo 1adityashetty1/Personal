@@ -7,6 +7,10 @@ public class TestMoney {
         if (mydata == null) {
             mydata = new Data();
         }
+        if(args.length < 1){
+            System.out.println("Please enter a valid command. Type 'help' for a list of valid commands");
+            return;
+        }
         switch (args[0]) {
             case "check":
                 int k = 0;
@@ -61,20 +65,26 @@ public class TestMoney {
                 }
 
             }
+             System.out.println("There are no more entries");
             for (Entry e : markedfordeath) {
                 mydata.getByamount().remove(e);
             }
             mydata.update();
+                break;
             case "greatest":
                 mydata.getByamount().first().print();
+                break;
             case "oldest":
                 mydata.getBydate().peek().print();
+                break;
             case "greatest-d":
                 mydata.removeGreatest();
                 mydata.update();
+                break;
             case "oldest-d":
                 mydata.removeOldest();
                 mydata.update();
+                break;
             case "help":
                 System.out.println(" ");
                 System.out.println("'check' - an interactive playthrough of all entries");
@@ -91,8 +101,10 @@ public class TestMoney {
                 System.out.println(" ");
                 System.out.println("'oldest-d' - deletes entry with oldest date");
                 System.out.println(" ");
+                break;
             default:
                 System.out.println("Please enter a valid command. Type 'help' for a list of valid commands");
+                break;
         }
 
         saveMyData(mydata);
