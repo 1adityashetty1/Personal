@@ -12,19 +12,22 @@ public class TestMoney {
                 int k = 0;
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 HashSet<Entry> markedfordeath = new HashSet();
-                while (mydata.size())>k){
+                while (mydata.getBydate().size()>k){
                 mydata.getBydate().get(k).print();
-                System.out.println("Would you like to (c)ontinue, (d)elete,(e)xit, (o)r change this entry?);
+                System.out.println("Would you like to (c)ontinue, (d)elete,(e)xit, (o)r change this entry?");
                 try {
                     String alpha = br.readLine();
                     switch (alpha) {
                         case "c":
                             k += 1;
+                            break;
                         case "d":
                             markedfordeath.add(mydata.getBydate().get(k));
                             k += 1;
+                            break;
                         case "e":
-                            k = mydata.size();
+                            k = mydata.getBydate().size();
+                            break;
                         case "o":
                             boolean cont = false;
                             while (!cont) {
@@ -32,23 +35,29 @@ public class TestMoney {
                                 BufferedReader tr = new BufferedReader(new InputStreamReader(System.in));
                                 String beta = tr.readLine();
                                 System.out.println("Please enter an amount");
-                                String gamma = tr.readLine();
+                                Double gamma = Double.parseDouble(tr.readLine());
                                 mydata.reMap(mydata.getBydate().get(k), beta, gamma);
                                 System.out.println("Would you like to continue? [y] [n]");
                                 String delta = tr.readLine();
                                 switch (delta) {
                                     case "y":
                                         cont = true;
+                                        break;
                                     case "n":
-                                        cont = cont;
+                                        break;
                                     default:
                                         System.out.println("Enter y or n");
+                                        break;
                                 }
                             }
                             k += 1;
+                            break;
                         default:
-                            System.out.println("Enter c,o,d,e")
+                            System.out.println("Enter c,o,d,e");
+                            break;
                     }
+                } catch (IOException e){
+                    System.out.println("Exception");
                 }
 
             }
@@ -60,15 +69,15 @@ public class TestMoney {
                 mydata.getByamount().first().print();
             case "oldest":
                 mydata.getBydate().peek().print();
-            case "greatest -d"
+            case "greatest-d":
                 mydata.removeGreatest();
                 mydata.update();
-            case "oldest -d":
+            case "oldest-d":
                 mydata.removeOldest();
                 mydata.update();
             case "help":
                 System.out.println(" ");
-                System.out.println("'check' - an interactive playthrough of all entrys");
+                System.out.println("'check' - an interactive playthrough of all entries");
                 System.out.println(" ");
                 System.out.println(" ");
                 System.out.println("'greatest' - shows entry with largest amount");
@@ -89,7 +98,7 @@ public class TestMoney {
         saveMyData(mydata);
     }
 
-}
+
 
     private static Data tryLoadingMyData() {
         Data last = null;
@@ -124,9 +133,10 @@ public class TestMoney {
             System.out.println(msg);
         }
     }
-
-
 }
+
+
+
 
 class Data implements Serializable {
     private LinkedList<Entry> bydate;
@@ -207,9 +217,9 @@ class Entry implements Serializable, Comparable {
 
     public void setPayers(Collection<String> collect, Double cost) {
         for (String s : collect) {
-            payers.put(String, cost);
+            payers.put(s, cost);
         }
-        this.amount = payers.size() * cost
+        this.amount = (payers.size() * cost);
     }
 
     public void reMap(String payer, Double cost) {
@@ -223,7 +233,7 @@ class Entry implements Serializable, Comparable {
     }
 
     public int compareTo(Object o) {
-        if (this == ((Entry) o).amount)
+        if (this.amount == ((Entry) o).amount)
             return 0;
         else if ((this.amount) < ((Entry) o).amount)
             return 1;
@@ -232,7 +242,7 @@ class Entry implements Serializable, Comparable {
     }
 
     public void print() {
-        System.out.println('====')
+        System.out.println("====");
         System.out.println(this.date);
         System.out.print("   " + this.payee);
         System.out.print("   " + this.amount);
