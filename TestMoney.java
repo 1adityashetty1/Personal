@@ -84,7 +84,12 @@ public class TestMoney {
                                             break;
                                     }
                                 }
-                                k += 1;
+                                if (mydata.getBydate().get(k).getPayers().size() < 1) {
+                                    mydata.getBydate().remove(k);
+                                    k = k;
+                                } else {
+                                    k += 1;
+                                }
                                 break;
                             default:
                                 System.out.println(" ");
@@ -101,7 +106,6 @@ public class TestMoney {
                 for (Entry e : markedfordeath) {
                     mydata.getByamount().remove(e);
                 }
-                mydata.update();
                 break;
             case "greatest":
                 if (mydata.getByamount().size() < 1) {
@@ -123,7 +127,6 @@ public class TestMoney {
                     return;
                 }
                 mydata.removeGreatest();
-                mydata.update();
                 break;
             case "oldest-d":
                 if (mydata.getBydate().size() < 1) {
@@ -131,7 +134,6 @@ public class TestMoney {
                     return;
                 }
                 mydata.removeOldest();
-                //mydata.update();
                 break;
             case "help":
                 System.out.println(" ");
@@ -218,9 +220,9 @@ class Data implements Serializable {
                 bydate.add(e);
             }
         }
-        for (int i = 0; i <bydate.size();i++) {
+        for (int i = 0; i < bydate.size(); i++) {
             Entry s = bydate.get(i);
-            if (!((Set)byamount).contains(s)) {
+            if (!((Set) byamount).contains(s)) {
                 bydate.remove(s);
             }
         }
@@ -282,7 +284,7 @@ class Entry implements Serializable, Comparable {
 
     public void reMap(String payer, Double cost) {
         Double orig = payers.get(payer);
-        if(orig == null){
+        if (orig == null) {
             orig = 0.00;
         }
         if (cost <= 0.0) {
@@ -295,10 +297,9 @@ class Entry implements Serializable, Comparable {
 
     public int compareTo(Object o) {
 
-        if(equals(o)) {
+        if (equals(o)) {
             return 0;
-            }
-        else if ((this.amount) < ((Entry) o).amount)
+        } else if ((this.amount) < ((Entry) o).amount)
             return 1;
         else
             return -1;
