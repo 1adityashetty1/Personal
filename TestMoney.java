@@ -56,7 +56,8 @@ public class TestMoney {
                                 break;
                             case "d":
                                 markedfordeath.add(mydata.getBydate().get(k));
-                                k += 1;
+                                mydata.getBydate().remove(k);
+                                k = k;
                                 break;
                             case "e":
                                 k = mydata.getBydate().size();
@@ -130,7 +131,7 @@ public class TestMoney {
                     return;
                 }
                 mydata.removeOldest();
-                mydata.update();
+                //mydata.update();
                 break;
             case "help":
                 System.out.println(" ");
@@ -293,8 +294,10 @@ class Entry implements Serializable, Comparable {
     }
 
     public int compareTo(Object o) {
-        if (this.amount == ((Entry) o).amount)
+
+        if(equals(o)) {
             return 0;
+            }
         else if ((this.amount) < ((Entry) o).amount)
             return 1;
         else
