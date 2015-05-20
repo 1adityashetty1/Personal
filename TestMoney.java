@@ -14,7 +14,7 @@ public class TestMoney {
         }
         switch (args[0]) {
             case "add":
-                System.out.println("Please enter a payment in the following format: payee, item");
+                System.out.println("Please enter a payment in the following format: payee,item");
                 BufferedReader ar = new BufferedReader(new InputStreamReader(System.in));
                 try {
                     String entry = ar.readLine();
@@ -44,7 +44,9 @@ public class TestMoney {
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 HashSet<Entry> markedfordeath = new HashSet();
                 while (mydata.getBydate().size() > k) {
+                    System.out.println(" ");
                     mydata.getBydate().get(k).print();
+                    System.out.println(" ");
                     System.out.println("Would you like to (c)ontinue, (d)elete,(e)xit, (o)r change this entry?");
                     try {
                         String alpha = br.readLine();
@@ -84,6 +86,7 @@ public class TestMoney {
                                 k += 1;
                                 break;
                             default:
+                                System.out.println(" ");
                                 System.out.println("Enter c,o,d,e");
                                 break;
                         }
@@ -92,6 +95,7 @@ public class TestMoney {
                     }
 
                 }
+                System.out.println(" ");
                 System.out.println("There are no more entries");
                 for (Entry e : markedfordeath) {
                     mydata.getByamount().remove(e);
@@ -210,12 +214,13 @@ class Data implements Serializable {
     public void update() {
         for (Entry e : byamount) {
             if (!bydate.contains(e)) {
-                byamount.add(e);
+                bydate.add(e);
             }
         }
-        for (Entry s : bydate) {
-            if (!byamount.contains(s)) {
-                byamount.remove(s);
+        for (int i = 0; i <bydate.size();i++) {
+            Entry s = bydate.get(i);
+            if (!((Set)byamount).contains(s)) {
+                bydate.remove(s);
             }
         }
     }
