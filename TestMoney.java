@@ -13,7 +13,7 @@ public class TestMoney {
             return;
         }
         switch (args[0]) {
-            case "add":
+            case "add-c":
                 System.out.println("Please enter a payment in the following format: payee,item");
                 BufferedReader ar = new BufferedReader(new InputStreamReader(System.in));
                 try {
@@ -23,8 +23,40 @@ public class TestMoney {
                         System.out.println("Invalid Input");
                         return;
                     }
-                    System.out.println("Please enter amount and payers in the following format: 0.00,payer1,payer2,etc.");
+                    System.out.println("Please enter payers in the following format: payer1,payer2,etc.");
                     String[] ap = ar.readLine().split(",");
+                    if (ap.length < 1) {
+                        System.out.println("Invalid Input");
+                        return;
+                    }
+                    System.out.println("Please enter amounts corresponding to each payer in this format: 0.00,1.00,etc");
+                    String[] pap = ar.readLine().split(",");
+                    if (ap.length != pap.length) {
+                        System.out.println("Invalid Input");
+                        return;
+                    }
+                    HashMap<String,Double> sd = new HashMap();
+                    for (int i = 1; i < ap.length; i++) {
+                        sd.put(ap[i], Double.parseDouble(pap[i]));
+                    }
+                    mydata.addcustomEntry(pi[0], pi[1],sd);
+                    break;
+                } catch (IOException e) {
+                    System.out.println("IOExeption");
+                    break;
+                }
+            case "add":
+                System.out.println("Please enter a payment in the following format: payee,item");
+                BufferedReader gr = new BufferedReader(new InputStreamReader(System.in));
+                try {
+                    String entry = gr.readLine();
+                    String[] pi = entry.split(",");
+                    if (pi.length != 2) {
+                        System.out.println("Invalid Input");
+                        return;
+                    }
+                    System.out.println("Please enter amount and payers in the following format: 0.00,payer1,payer2,etc.");
+                    String[] ap = gr.readLine().split(",");
                     if (ap.length < 2) {
                         System.out.println("Invalid Input");
                         return;
@@ -137,6 +169,12 @@ public class TestMoney {
                 break;
             case "help":
                 System.out.println(" ");
+                System.out.println("'add' - adds a standard entry(bill split evenly)");
+                System.out.println(" ");
+                System.out.println(" ");
+                System.out.println("'add-c' - adds a custom entry(bill split unevenly");
+                System.out.println(" ");
+                System.out.println(" ");
                 System.out.println("'check' - an interactive playthrough of all entries");
                 System.out.println(" ");
                 System.out.println(" ");
@@ -234,6 +272,12 @@ class Data implements Serializable {
         bydate.add(g);
         byamount.add(g);
     }
+    public void addcustomEntry(String payee, String item, HashMap<String,Double> collect){
+        Entry g = new Entry(payee, item);
+        g.setPayers(collect);
+        bydate.add(g);
+        byamount.add(g);
+    }
 
     public void setPayers(Entry g, Collection<String> collect, Double cost) {
         g.setPayers(collect, cost);
@@ -261,6 +305,15 @@ class Entry implements Serializable, Comparable {
     private String payee;
     private String item;
     private Double amount;
+
+    public void setPayers(HashMap<String, Double> payers) {
+        this.amount = 0.00;
+        this.payers = payers;
+        for(String s: payers.keySet()){
+            amount += payers.get(s);
+        }
+    }
+
     private HashMap<String, Double> payers;
     private String date;
 
