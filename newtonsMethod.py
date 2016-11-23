@@ -2,10 +2,10 @@ import numpy as np
 import scipy.io as test
 import matplotlib.pyplot as plt
 import scipy
-X = [.8,1,1.2,2.5,2.6,3,4.3,4,5,5.6,6.8,7,7.2,8]
-X2 = [.8,1,1.2,2.5,2.6,3,4.3,4,5,5.6,6.8,7,7.2,8,3]
-x_append = [1,1,  1,  1,1, 1, 1, 1,1,  1,  1,  1,1,  1]
-y = [ 0,0,  0,  0,  0,0,  0,1,1,  1,  1,1, 1, 1,1]
+#X = [.8,1,1.2,2.5,2.6,3,4.3,4,5,5.6,6.8,7,7.2,8]
+#X2 = [.8,1,1.2,2.5,2.6,3,4.3,4,5,5.6,6.8,7,7.2,8,3]
+#x_append = [1,1,  1,  1,1, 1, 1, 1,1,  1,  1,  1,1,  1]
+#y = [ 0,0,  0,  0,  0,0,  0,1,1,  1,  1,1, 1, 1,1]
 
 def train_newton_logistic(X_train, y_train, num_iter=3):
 	''' Build a model from X_train -> y_train using batch gradient descent '''
