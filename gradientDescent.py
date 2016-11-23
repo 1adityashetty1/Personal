@@ -5,7 +5,7 @@ import numpy as np
 import scipy.io as test
 import matplotlib.pyplot as plt
 def load_dataset():
-	data = test.loadmat('spam.mat')
+	data = test.loadmat('path/data.mat')
 	return data
 
 def prepare_normalize(Xtrain):
@@ -101,44 +101,4 @@ if __name__ == "__main__":
 	# print("Train accuracy GD-log: {0}".format(metrics.accuracy_score(y_train, pred_labels_train2)))
 	# np.savetxt('new.csv',np.dstack((np.arange(1,pred_labels_test.size+1),pred_labels_test.T))[0],"%d,%d",header="Id,Category")
 
-	# model = train_gd(X_train3, y_train, alpha= .001, reg=0.1, num_iter=60000)
-	# pred_labels_train3 = predict(model, X_train3)
-	# print("Train accuracy GD-binarize: {0}".format(metrics.accuracy_score(y_train, pred_labels_train3)))
-
-	# model = train_gd(X_train1, y_train, alpha= .15, reg=0.1, num_iter=60000,alt_learn = True)
-	# pred_labels_train1 = predict(model, X_train1)
-	# print("Train accuracy GD-normalize-alt: {0}".format(metrics.accuracy_score(y_train, pred_labels_train1)))
-
-	# model = train_gd(X_train2, y_train, alpha= .15, reg=0.1, num_iter=60000,alt_learn = True)
-	# pred_labels_train2 = predict(model, X_train2)
-	# print("Train accuracy GD-log-alt: {0}".format(metrics.accuracy_score(y_train, pred_labels_train2)))
-
-	# model = train_gd(X_train3, y_train, alpha= .15, reg=0.1, num_iter=60000,alt_learn = True)
-	# pred_labels_train3 = predict(model, X_train3)
-	# print("Train accuracy GD-binarize-alt: {0}".format(metrics.accuracy_score(y_train, pred_labels_train3)))
-
-
-
-	# model = train_sgd(X_train1, y_train, alpha= .001, reg=0.1, num_iter=60000)
-	# pred_labels_train1 = predict(model, X_train1)
-	# print("Train accuracy SGD-normalize: {0}".format(metrics.accuracy_score(y_train, pred_labels_train1)))
-
-	# model = train_sgd(X_train2, y_train, alpha= .001, reg=0.1, num_iter=60000)
-	# pred_labels_train2 = predict(model, X_train2)
-	# print("Train accuracy SGD-log: {0}".format(metrics.accuracy_score(y_train, pred_labels_train2)))
-
-	# model = train_sgd(X_train3, y_train, alpha= .001, reg=0.1, num_iter=60000)
-	# pred_labels_train3 = predict(model, X_train3)
-	# print("Train accuracy SGD-binarize: {0}".format(metrics.accuracy_score(y_train, pred_labels_train3)))
-
-	# model = train_sgd(X_train1, y_train, alpha= .15, reg=0.1, num_iter=60000,alt_learn = True)
-	# pred_labels_train1 = predict(model, X_train1)
-	# print("Train accuracy SGD-normalize-alt: {0}".format(metrics.accuracy_score(y_train, pred_labels_train1)))
-
-	# model = train_sgd(X_train2, y_train, alpha= .15, reg=0.1, num_iter=60000,alt_learn = True)
-	# pred_labels_train2 = predict(model, X_train2)
-	# print("Train accuracy SGD-log-alt: {0}".format(metrics.accuracy_score(y_train, pred_labels_train2)))
-
-	# model = train_sgd(X_train3, y_train, alpha= .15, reg=0.1, num_iter=60000,alt_learn = True)
-	# pred_labels_train3 = predict(model, X_train3)
-	# print("Train accuracy SGD-binarize-alt: {0}".format(metrics.accuracy_score(y_train, pred_labels_train3)))
+	
