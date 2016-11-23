@@ -8,9 +8,9 @@ import scipy.io as test
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 
-
+###THIS FILE IS USELESS BY ITSELF. USE MAIN FOR MIXED DATA SETS otherwise ignore
 if __name__ == "__main__":
-	with open('hw5_data/census_data/train_data.csv') as csvfile:
+	with open('path/data.csv') as csvfile:
 		trainlist = []
 		labels = []
 		v = DictVectorizer(sparse=False)
