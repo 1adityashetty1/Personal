@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 MAX_DEPTH = 9
 
 def load_dataset():
-	data = test.loadmat('hw5_data/spam_data/spam_data2.mat')
+	data = test.loadmat('path/data2.mat')
 	return data
 def impurity(left_label_hist, right_label_hist):
 	totalLeft = np.sum(left_label_hist)
